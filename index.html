@@ -2,8 +2,8 @@
 <html lang="id" class="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Csvault - Portal Game Visual Novel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Csvault - Premium Visual Novel Hub</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -14,14 +14,21 @@
                 extend: {
                     colors: {
                         brand: {
-                            50: '#f5f3ff', 100: '#ede9fe', 400: '#a78bfa',
-                            500: '#8b5cf6', 600: '#7c3aed', 700: '#6d28d9',
-                            800: '#5b21b6', 900: '#2e1065',
+                            50: '#f5f3ff', 100: '#ede9fe', 300: '#c4b5fd', 400: '#a78bfa',
+                            500: '#8b5cf6', 600: '#7c3aed', 700: '#6d28d9', 800: '#5b21b6', 900: '#2e1065',
                         },
-                        dark: '#0f0b1e',
-                        darkAccent: '#1a142e',
-                        border: '#2a2245',
-                        saweria: '#F2C94C',
+                        dark: '#09090b',
+                        darkCard: '#18181b',
+                        borderColor: '#27272a',
+                        saweria: '#F2C94C'
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.3s ease-out',
+                        'slide-up': 'slideUp 0.4s ease-out',
+                    },
+                    keyframes: {
+                        fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+                        slideUp: { '0%': { opacity: '0', transform: 'translateY(20px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } }
                     }
                 }
             }
@@ -31,127 +38,20 @@
     <!-- Alpine.js -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        body { font-family: 'Poppins', sans-serif; background-color: #0f0b1e; color: #f5f3ff; }
-        .glass { background: rgba(26, 20, 46, 0.9); backdrop-filter: blur(12px); border: 1px solid #2a2245; }
-        .game-card-hover { transition: all 0.3s ease; }
-        .game-card-hover:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(124, 58, 237, 0.3); border-color: #a78bfa; }
-        .filter-btn-active { background-color: #7c3aed; color: white; border-color: #a78bfa; }
-        .filter-btn-inactive { background-color: #1a142e; color: #a78bfa; border-color: #2a2245; }
-        .btn-saweria { background-color: #E2A012; color: white; transition: all 0.2s ease; border: 1px solid #c98e0e;}
-        .btn-saweria:hover { background-color: #F2C94C; transform: scale(1.02); box-shadow: 0 4px 15px rgba(242, 201, 76, 0.4); color: #111; }
-        [x-cloak] { display: none !important; }
-    </style>
-</head>
-<body class="min-h-screen flex flex-col justify-between">
-
-    <!-- Komponen Utama dibungkus x-data -->
-    <div x-data="csvaultData()">
-    
-        <!-- HEADER -->
-        <header class="sticky top-0 z-40 glass border-b border-border">
-            <nav class="container mx-auto px-4 py-3 flex items-center justify-between">
-                <div class="flex items-center gap-2.5">
-                    <div class="w-9 h-9 rounded-xl bg-brand-600 flex items-center justify-center border border-brand-400 shadow-lg shadow-brand-900/50">
-                        <i class="fas fa-box-archive text-white"></i>
-                    </div>
-                    <span class="text-xl font-extrabold text-brand-400">Csvault</span>
-                </div>
-                <div class="flex items-center gap-2">
-                    <span class="text-xs px-3 py-1 rounded-full bg-brand-900/60 border border-brand-700 text-brand-300 font-medium hidden sm:inline-block">
-                        <i class="fas fa-gamepad text-brand-400 mr-1"></i> Komunitas VN ID
-                    </span>
-                    <a href="https://saweria.co/CSXix" target="_blank" rel="noopener noreferrer" class="text-xs px-3 py-1 rounded-full bg-saweria/20 border border-saweria text-saweria hover:bg-saweria hover:text-black font-bold transition flex items-center gap-1">
-                       <i class="fas fa-coffee"></i> Dukung
-                    </a>
-                </div>
-            </nav>
-        </header>
-
-        <main class="container mx-auto px-4 py-5 space-y-6 flex-grow">
-
-            <!-- HERO SECTION -->
-            <section class="p-5 md:p-8 rounded-3xl relative overflow-hidden glass border-2 border-brand-800 shadow-xl shadow-brand-900/30">
-                <div class="relative z-10 space-y-3">
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-3 py-1 rounded-full text-[10px] font-bold bg-pink-600 text-white shadow">REKOMENDASI UTAMA</span>
-                        <span class="px-3 py-1 rounded-full text-[10px] font-bold bg-brand-600 text-white shadow">Bahasa Indonesia</span>
-                    </div>
-                    <h1 class="text-2xl md:text-4xl font-extrabold text-white leading-tight">Summer Memories: <span class="text-brand-400">Indonesia Translation</span></h1>
-                    <p class="text-brand-100 text-xs md:text-sm max-w-xl leading-relaxed">
-                        Petualangan liburan musim panas yang santai, penuh cerita emosional, kini hadir dengan terjemahan Bahasa Indonesia penuh.
-                    </p>
-                    <div class="pt-2 flex flex-wrap items-center gap-3">
-                        <button @click="openDetail(games[0])" class="px-5 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold text-xs flex items-center gap-2 transition shadow-lg shadow-brand-900/50">
-                            <i class="fas fa-info-circle"></i> Lihat Detail & Unduh
-                        </button>
-                        <div class="flex items-center gap-1.5 text-yellow-400 text-xs font-bold px-2">
-                            <i class="fas fa-star"></i> <span>4.9/5.0</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- FILTER & PENCARIAN -->
-            <section class="p-4 rounded-2xl glass shadow-md space-y-3">
-                <div class="flex items-center justify-between">
-                    <h2 class="text-sm font-bold text-brand-300 flex items-center gap-2">
-                        <i class="fas fa-filter text-brand-400"></i> Cari & Filter Katalog
-                    </h2>
-                    <button @click="resetFilters()" class="text-[11px] text-brand-400 underline">Reset</button>
-                </div>
-                <div class="relative">
-                    <i class="fas fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-500 text-xs"></i>
-                    <input type="text" x-model="searchQuery" placeholder="Cari judul game..." 
-                           class="w-full pl-10 pr-3 py-2.5 rounded-xl bg-darkAccent border border-border text-white text-xs outline-none focus:border-brand-500">
-                </div>
-                <div class="flex flex-wrap gap-1.5">
-                    <template x-for="tag in availableTags">
-                        <button @click="toggleTag(tag)" x-text="tag" 
-                                class="px-2.5 py-1 rounded-lg text-[11px] font-medium border transition"
-                                :class="selectedTags.includes(tag) ? 'filter-btn-active' : 'filter-btn-inactive'"></button>
-                    </template>
-                </div>
-            </section>
-
-            <!-- GRID DAFTAR GAME -->
-            <section>
-                <div class="mb-3 flex items-center justify-between text-xs text-brand-400">
-                    <span>Total Katalog: <strong class="text-white" x-text="filteredGames().length"></strong> Game</span>
-                </div>
-
-                <div class="grid grid-cols-2 gap-3.5 md:grid-cols-4 lg:grid-cols-5">
-                    <template x-for="game in filteredGames()" :key="game.id">
-                        <div class="game-card-hover glass rounded-2xl flex flex-col overflow-hidden border border-border">
-                            <div class="relative aspect-[3/4] bg-darkAccent">
-                                <img :src="game.posterUrl" :alt="game.title" class="w-full h-full object-cover">
-                                <div class="absolute bottom-1.5 left-1.5 flex gap-1">
-                                    <template x-for="tag in game.tags">
-                                        <span x-text="tag" class="px-1.5 py-0.5 rounded text-[9px] bg-brand-900/90 text-brand-200 border border-brand-700"></span>
-                                    </template>
-                                </div>
-                            </div>
-                            <div class="p-3 flex flex-col justify-between flex-grow space-y-2">
-                                <div>
-                                    <h3 x-text="game.title" class="font-semibold text-white text-xs line-clamp-1"></h3>
-                                    <p x-text="game.genre" class="text-[10px] text-brand-400"></p>
-                                </div>
-                                <div class="flex items-center justify-between text-[11px] pt-1 border-t border-border/50">
-                                    <span class="text-yellow-400 font-bold"><i class="fas fa-star text-[10px]"></i> <span x-text="game.rating"></span></span>
-                                    <span class="text-brand-300 font-mono text-[10px]" x-text="game.fileSize"></span>
-                                </div>
-                                <button @click="openDetail(game)" class="w-full text-center py-2 rounded-xl bg-brand-600 hover:bg-brand-500 text-white text-[11px] font-bold transition shadow">
-                                    Unduh / Detail
-                                </button>
-                            </div>
-                        </div>
-                    </template>
-                </div>
-
-                <!-- Kosong -->
-                <div x-show="filteredGames().length === 0" x-cloak class="text
-    
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #09090b; color: #f4f4f5; -webkit-tap-highlight-color: transparent; }
+        .glass-nav { background: rgba(9, 9, 11, 0.7); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .glass-card { background: linear-gradient(145deg, #18181b 0%, #0f0f11 100%); border: 1px solid #27272a; box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5); }
+        
+        /* Hilangkan Scrollbar tapi tetap bisa di-scroll */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Animasi Gambar */
+        .game-img-wrapper img { transition: transform 0.5s ease; }
+        .group:
+        
